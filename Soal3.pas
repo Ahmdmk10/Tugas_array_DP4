@@ -30,25 +30,40 @@ begin
     until (nilai[i] > 0) and (nilai[i] <= 100);
   end;
   
-  { 3. METODE PENGERJAAN: Bubble Sort Teroptimasi (Early Exit) }
+  { ========================================================================= }
+  { 3. METODE PENGERJAAN: Bubble Sort Teroptimasi (Early Exit)                }
+  { ========================================================================= }
+  
+  { Loop Luar (i): Mengontrol jumlah pass/putaran pengurutan (maksimal n - 1 kali) }
   for i := 1 to n - 1 do
   begin
+    { Reset flag tertukar menjadi false setiap kali memasuki putaran baru }
     tertukar := false;
     
+    { Loop Dalam (j): Membandingkan elemen berpasangan (j dan j+1) dari awal hingga (n - i) }
+    { Batas (n - i) digunakan karena di tiap akhir putaran i, nilai terbesar sudah bergeser ke kanan }
     for j := 1 to n - i do
     begin
+      { Kondisi: Jika nilai sebelah kiri lebih besar dari nilai sebelah kanan, lakukan penukaran }
       if nilai[j] > nilai[j + 1] then
       begin
-        { Penukaran aritmatika tanpa variabel temp }
+        { --- Penukaran Aritmatika Tanpa Variabel Temp --- }
+        { Step 1: Simpan jumlah total kedua nilai ke elemen kiri }
         nilai[j]     := nilai[j] + nilai[j + 1];
+        
+        { Step 2: Ambil nilai awal elemen kiri untuk dimasukkan ke elemen kanan }
         nilai[j + 1] := nilai[j] - nilai[j + 1];
+        
+        { Step 3: Ambil nilai awal elemen kanan untuk dimasukkan ke elemen kiri }
         nilai[j]     := nilai[j] - nilai[j + 1];
         
-        tertukar := true; { Tandai bahwa terjadi penukaran }
+        { Tandai bahwa terjadi penukaran posisi pada putaran ini }
+        tertukar := true; 
       end;
     end;
     
-    { Jika tidak ada posisi yang ditukar, hentikan perulangan lebih awal }
+    { OPTIMASI EARLY EXIT: Jika selama perulangan dalam tidak ada penukaran posisi (tertukar = false), }
+    { artinya seluruh data sudah terurut sempurna, sehingga perulangan dihentikan lebih awal. }
     if not tertukar then
       break;
   end;
